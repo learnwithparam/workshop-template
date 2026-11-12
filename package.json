@@ -1,0 +1,9 @@
+{
+  "name": "workshop-template",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "bun scripts/check.ts && bun scripts/verify.ts --all",
+    "verify": "bun scripts/verify.ts"
+  }
+}
