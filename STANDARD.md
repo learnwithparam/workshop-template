@@ -29,7 +29,10 @@ schedules.toml           parts mapped onto formats
 | No Makefile. Commands are Bun or `uv run` scripts. | `check.ts` 1 | user, 12 Nov 2026 |
 | A step is named verb-thing and the learner types that name: `bun run verify <step-name>`. Never a number. | `check.ts` 2, 3 | epicshop issue #184, numbered steps break on reorder |
 | Plain English: no em dash, no hype word, no week, day or hour in content. | `check.ts` 2 | RESEARCH.md |
-| Every part README has a Mermaid diagram. | `check.ts` 3 | RESEARCH.md |
+| Every part README has a Mermaid diagram and a Walkthrough section with its commands. | `check.ts` 3 | RESEARCH.md, user 12 Nov 2026 |
+| The root README shows the finished system as a screenshot and a Mermaid diagram; the orientation shows a screenshot. | `check.ts` 2b | user 12 Nov 2026 |
+| Every step shows a picture: a screenshot or a Mermaid diagram. | `check.ts` 3 | user 12 Nov 2026 |
+| Every image a page names exists. | `check.ts` 2b | user 12 Nov 2026 |
 | Every step README has: The problem, Your challenge, Done when, If you get stuck, Words you will use. | `check.ts` 3 | epicshop, Carpentries |
 | A step takes 5 to 30 minutes and its README stays under 600 words. Split, never squeeze. | `check.ts` 3 | epicshop step sizes |
 | A step whose result is on screen ships `images/expected.png` and shows it. | `check.ts` 3 | Langfuse workshop learner docs |

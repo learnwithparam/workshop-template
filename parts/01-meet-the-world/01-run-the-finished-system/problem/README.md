@@ -4,6 +4,11 @@
 
 Say what goes wrong in the world today, and what it costs.
 
+```mermaid
+flowchart LR
+  P[The problem today] --> O[outcome.md names the result] --> V[verify reads it]
+```
+
 ## Your challenge
 
 Write `outcome.md` with one line: the outcome you will build.

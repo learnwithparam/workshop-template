@@ -14,4 +14,6 @@ bun run verify run-the-finished-system
 
 Expect: two `FAIL` lines, each with a `Try next:` line. That is the starting point; every step begins failing.
 
+![Your first run: every rule fails and says what to try next](images/first-run.png)
+
 When a command prints something you do not expect, look it up in [troubleshooting.md](troubleshooting.md).

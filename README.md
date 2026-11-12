@@ -10,6 +10,16 @@ bun run verify run-the-finished-system solution
 
 Expect: `Done. All 2 rules pass.`
 
+![The finished system passing its check](images/finished-system.png)
+
+```mermaid
+flowchart LR
+  W[The world: data and a system of record] --> S[What you build in each step]
+  S --> C[bun run verify step-name]
+  C -->|PASS| N[Next step]
+  C -->|FAIL and Try next| S
+```
+
 ## How a course works
 
 1. Start in [00-orientation](00-orientation/README.md).

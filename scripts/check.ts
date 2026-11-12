@@ -1,6 +1,6 @@
 // bun run check: the repo standard. CI runs this; any failure stops the build.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { ROOT, parts, allSteps } from "./structure";
 
 const errors: string[] = [];
@@ -37,6 +37,25 @@ for (const f of files.filter((f) => f.endsWith(".md"))) {
   });
 }
 
+// 2b. Every page shows, not only tells: images it names exist, and the key pages carry a picture.
+const IMAGE = /!\[[^\]]*\]\(([^)\s]+)\)/g;
+const MERMAID = /```mermaid\n/;
+const hasImage = (t: string) => [...t.matchAll(IMAGE)].length > 0;
+for (const f of files.filter((f) => f.endsWith(".md"))) {
+  for (const m of read(f).matchAll(IMAGE)) {
+    if (/^https?:/.test(m[1])) continue;
+    if (!existsSync(join(dirname(f), m[1]))) fail(f, `image "${m[1]}" does not exist`);
+  }
+}
+const needPicture = (f: string, what: string, mermaid: boolean, image: boolean) => {
+  if (!existsSync(f)) return fail(f, "missing");
+  const t = read(f);
+  if (mermaid && !MERMAID.test(t)) fail(f, `${what} needs a Mermaid diagram`);
+  if (image && !hasImage(t)) fail(f, `${what} needs a screenshot`);
+};
+needPicture(join(ROOT, "README.md"), "the root README", true, true);
+needPicture(join(ROOT, "00-orientation", "README.md"), "the orientation", false, true);
+
 // 3. Parts and steps.
 const seen = new Set<string>();
 const ps = parts();
@@ -44,7 +63,13 @@ if (ps.length === 0) fail(join(ROOT, "parts"), "no parts");
 for (const p of ps) {
   const readme = join(p.dir, "README.md");
   if (!existsSync(readme)) fail(p.dir, "part has no README.md");
-  else if (!/```mermaid\n/.test(read(readme))) fail(readme, "part README needs a Mermaid diagram");
+  else {
+    const t = read(readme);
+    if (!MERMAID.test(t)) fail(readme, "part README needs a Mermaid diagram");
+    const walk = t.split("## Walkthrough")[1]?.split("\n## ")[0];
+    if (walk === undefined) fail(readme, `part README needs a "## Walkthrough" section`);
+    else if (!walk.includes("```bash")) fail(readme, "the walkthrough needs the commands, each with an Expect: line");
+  }
   if (p.steps.length === 0) fail(p.dir, "part has no steps");
   for (const s of p.steps) {
     if (!VERB_THING.test(s.name)) fail(s.dir, `step name "${s.name}" must be verb-thing in lower case`);
@@ -58,6 +83,7 @@ for (const p of ps) {
     const words = text.split(/\s+/).filter(Boolean).length;
     if (words > 600) fail(sr, `${words} words; a step README stays under 600, split the step`);
     for (const h of STEP_SECTIONS) if (!text.includes(h)) fail(sr, `missing section "${h}"`);
+    if (!MERMAID.test(text) && !hasImage(text)) fail(sr, "a step shows a picture: a screenshot or a Mermaid diagram");
     const done = text.split("## Done when")[1]?.split("\n## ")[0] ?? "";
     if (!/^- /m.test(done)) fail(sr, "Done when needs at least one bullet");
     if (s.meta.screen) {
