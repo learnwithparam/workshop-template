@@ -13,6 +13,12 @@ flowchart LR
 
 Write `outcome.md` with one line: the outcome you will build.
 
+For example:
+
+```text
+Outcome: the baker sees tomorrow's orders on one page before 6 in the morning.
+```
+
 ## Done when
 
 - `outcome.md` exists in this folder.

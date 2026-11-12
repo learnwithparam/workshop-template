@@ -26,4 +26,7 @@ flowchart LR
 2. Each part in `parts/` opens with a real problem and a diagram.
 3. Each step has a challenge, a Done when list, and one command: `bun run verify <step-name>`.
 
+For example, the first step asks you to write one line in `outcome.md`. You run
+`bun run verify run-the-finished-system`, and it tells you which rule passed and what to try next.
+
 The rules every course repo follows, and the check that enforces each one, are in [STANDARD.md](STANDARD.md).

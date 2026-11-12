@@ -4,6 +4,8 @@
 
 Replace this with the real problem this part solves, who pays for it, and a public number.
 
+For example: "A bakery throws away 40 loaves a week because nobody checks the orders sheet before baking."
+
 ```mermaid
 flowchart LR
   A[Your input] --> B[What you build] --> C[The outcome you can show]
