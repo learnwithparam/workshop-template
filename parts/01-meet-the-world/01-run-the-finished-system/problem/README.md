@@ -26,10 +26,10 @@ Expect: `Done. All 2 rules pass.` and a `Progress:` line.
 
 ## If you get stuck
 
-| What you see | Fix |
-|---|---|
-| `FAIL outcome.md exists` | Create `outcome.md` inside this `problem/` folder, not the repo root. |
-| `FAIL it has a line that starts with Outcome:` | Start the line with `Outcome:` and name one thing a person can see. |
+| What you see                                   | Fix                                                                   |
+| ---------------------------------------------- | --------------------------------------------------------------------- |
+| `FAIL outcome.md exists`                       | Create `outcome.md` inside this `problem/` folder, not the repo root. |
+| `FAIL it has a line that starts with Outcome:` | Start the line with `Outcome:` and name one thing a person can see.   |
 
 ## Words you will use
 
