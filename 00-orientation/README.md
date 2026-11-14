@@ -1,6 +1,6 @@
 # Start here
 
-You will set up the repo, meet the world, run the finished system and see the goal. It takes about 15 minutes.
+You will set up the repo, meet the world, run the finished system and see the goal. It is a short first sitting.
 
 ```bash
 bun install
