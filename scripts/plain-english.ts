@@ -300,8 +300,8 @@ if (import.meta.main) {
     named.length > 0
       ? named.filter((file) => !AUTHOR_PAGES.has(basename(file)))
       : markdownFiles(ROOT);
-  const problemsInFile = (file: string) =>
-    problemsIn(file, readFileSync(file, "utf8"), gradeLimit);
+  const readProblems = (file: string) => problemsIn(file, readFileSync(file, "utf8"), gradeLimit);
+  const problemsInFile = readProblems;
   const problems = files.flatMap(problemsInFile);
   for (const problem of problems) {
     console.error(`${relative(ROOT, problem.file)}: ${problem.message}`);
