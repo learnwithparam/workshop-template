@@ -10,7 +10,6 @@
     "format": "biome check --write .",
     "verify": "bun scripts/verify.ts",
     "plain-english": "bun scripts/plain-english.ts",
-    "text-audit": "bun scripts/text-audit.ts && bun scripts/capstone.ts && bun test scripts/shape.test.ts"
     "text-audit": "bun scripts/text-audit.ts",
     "picks": "bun scripts/picks.ts",
     "ladder": "bun scripts/ladder.ts"
