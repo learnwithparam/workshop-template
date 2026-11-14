@@ -52,8 +52,9 @@ function loadStep(partFolder: string, partName: string, stepName: string): Step 
   };
 }
 
-export function parts(): Part[] {
-  const partsFolder = join(ROOT, "parts");
+// The root argument lets fixture repos be read the same way as the real one.
+export function parts(root: string = ROOT): Part[] {
+  const partsFolder = join(root, "parts");
   return subfolders(partsFolder).map((partName) => {
     const partFolder = join(partsFolder, partName);
     const steps = subfolders(partFolder).map((stepName) =>
@@ -63,10 +64,10 @@ export function parts(): Part[] {
   });
 }
 
-export const allSteps = () => parts().flatMap((part) => part.steps);
+export const allSteps = (root: string = ROOT) => parts(root).flatMap((part) => part.steps);
 
-export function findStep(name: string): Step | undefined {
-  return allSteps().find((step) => step.name === name);
+export function findStep(name: string, root: string = ROOT): Step | undefined {
+  return allSteps(root).find((step) => step.name === name);
 }
 
 // Shape rules (standard sections 1 to 3). Pure functions, so the fixtures can test them.
