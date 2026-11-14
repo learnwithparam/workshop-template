@@ -176,6 +176,35 @@ function versionProblems(file: string, markdown: string): Problem[] {
   return found.map((text) => ({ file, message: `version number "${text}": ${advice}` }));
 }
 
+// A date makes a page feel old. Say what a thing is, not when it appeared.
+const YEAR = "(?:20(?:1[5-9]|2\\d|3\\d))";
+const MONTH = [
+  "(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?",
+  "Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)",
+].join("|");
+const DATES = [
+  new RegExp(`(?<![\\d./-])${YEAR}(?![\\d]|[./-]\\d)`, "g"),
+  new RegExp(`\\b${MONTH}\\.?\\s+(?:\\d{1,2}(?:st|nd|rd|th)?\\b|${YEAR}\\b)`, "g"),
+  new RegExp(`\\b\\d{1,2}(?:st|nd|rd|th)?\\s+${MONTH}\\b`, "g"),
+  /\bas of\s+(?:\d|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b)/gi,
+  /\blast updated\b/gi,
+  /\bupdated on\b/gi,
+  /\bnew in\s+\d{4}\b/gi,
+  /\breleased in\b/gi,
+];
+
+function dateProblems(file: string, markdown: string): Problem[] {
+  const text = textOutsideCode(markdown);
+  const found = text.split("\n").flatMap((line) => {
+    const hits = DATES.flatMap((pattern) => line.match(pattern) ?? []);
+    return hits.length === 0 ? [] : [line];
+  });
+  return found.map((line) => ({
+    file,
+    message: `date in prose: say what it is, not when (${line.trim().slice(0, 40)})`,
+  }));
+}
+
 // Keep only the lines a person reads as sentences.
 export function proseOf(markdown: string): string {
   const proseLines: string[] = [];
@@ -262,6 +291,7 @@ export function problemsIn(file: string, markdown: string, gradeLimit: number): 
     ...backtickProblems(file, markdown),
     ...minutesProblems(file, markdown),
     ...versionProblems(file, markdown),
+    ...dateProblems(file, markdown),
   ];
 
   const grade = readingGrade(sentences);
