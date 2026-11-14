@@ -4,7 +4,8 @@
   "type": "module",
   "packageManager": "bun@1.4.4",
   "scripts": {
-    "check": "bun scripts/readable.ts && bun scripts/plain-english.ts && bun scripts/check.ts && bun scripts/verify.ts --all && bun scripts/text-audit.ts",
+    "check": "bun scripts/readable.ts && bun scripts/plain-english.ts && bun scripts/check.ts && bun scripts/verify.ts --all && bun scripts/text-audit.ts && bun test scripts/changed.test.ts",
+    "check:changed": "bun scripts/changed.ts",
     "readable": "bun scripts/readable.ts",
     "format": "biome check --write .",
     "verify": "bun scripts/verify.ts",
