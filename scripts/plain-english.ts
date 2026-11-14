@@ -296,8 +296,12 @@ if (import.meta.main) {
   const gradeLimit = configuredGrade();
   // Named files narrow the run (check:changed and the prose test). Author pages stay skipped.
   const named = process.argv.slice(2).map((file) => resolve(ROOT, file));
-  const files = named.length > 0 ? named.filter((file) => !AUTHOR_PAGES.has(basename(file))) : markdownFiles(ROOT);
-  const problemsInFile = (file: string) => problemsIn(file, readFileSync(file, "utf8"), gradeLimit);
+  const files =
+    named.length > 0
+      ? named.filter((file) => !AUTHOR_PAGES.has(basename(file)))
+      : markdownFiles(ROOT);
+  const problemsInFile = (file: string) =>
+    problemsIn(file, readFileSync(file, "utf8"), gradeLimit);
   const problems = files.flatMap(problemsInFile);
   for (const problem of problems) {
     console.error(`${relative(ROOT, problem.file)}: ${problem.message}`);
