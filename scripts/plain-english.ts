@@ -4,7 +4,7 @@
 // Short sentences, everyday words, and an example on every teaching page.
 // Code blocks, tables and headings are skipped: they are not sentences.
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { basename, join, relative, resolve } from "node:path";
 import { ROOT } from "./structure";
 
 // A course for everyone (no code) can lower this in package.json: "plainEnglish": { "grade": 6 }.
@@ -294,9 +294,9 @@ if (import.meta.main) {
     process.exit(1);
   }
   const gradeLimit = configuredGrade();
-  // An optional path lets the prose test run the check on one fixture page.
-  const target = process.argv[2];
-  const files = target ? [target] : markdownFiles(ROOT);
+  // Named files narrow the run (check:changed and the prose test). Author pages stay skipped.
+  const named = process.argv.slice(2).map((file) => resolve(ROOT, file));
+  const files = named.length > 0 ? named.filter((file) => !AUTHOR_PAGES.has(basename(file))) : markdownFiles(ROOT);
   const problemsInFile = (file: string) => problemsIn(file, readFileSync(file, "utf8"), gradeLimit);
   const problems = files.flatMap(problemsInFile);
   for (const problem of problems) {
